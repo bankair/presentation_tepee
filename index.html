@@ -38,6 +38,12 @@
   <body>
     <div class="reveal">
       <div class="slides">
+
+        <section>
+          <div><img class="logo" src='./images/logo.svg'/></div>
+          <small>Un outil de gestion de configuration pour les braves !</small>
+        </section>
+
         <section>
           <h2> Le pattern usuel de mapping sur l'environnement d'exécution</h2>
           <pre class='fragment'><code>
@@ -69,10 +75,10 @@
           </code></pre>
         </section>
 
-        <section id="fragments" class="present" style="top: 159.5px; display: block;">
-          <h2>Et pourquoi pas ?</h2>
+        <section class="present" style="top: 159.5px; display: block;">
+          <h2>Et pourquoi pas, finalement ?</h2>
           <ul>
-            <li class="fragment" data-fragment-index="1">Une globale, ça s'altère (🏋🏾‍♀️) !</li>
+            <li class="fragment" data-fragment-index="1">Une globale, ça s'altère (<strong>🏋🏾‍♀️</strong>) !</li>
             <li class="fragment" data-fragment-index="2">On répète le même pattern ad nauseam.</li>
             <li class="fragment" data-fragment-index="3">Assez indigeste à lire.</li>
           </ul>
@@ -249,6 +255,24 @@ end
           <pre class="fragment"><code class="smaller">
   Configuration.oauth2.google.client_id == ENV['OAUTH2_GOOGLE_CLIENT_ID']
           </code></pre>
+        </section>
+
+        <section class="present" style="top: 159.5px; display: block;">
+          <h2>Les avantages</h2>
+          <ul>
+            <li>Tepee est vraiment facile à utiliser.</li>
+            <li>L'organisation en section permet d'avoir une configuration bien structurée et propre.</li>
+            <li>Le mapping avec l'environnement d'exécution est automatique.</li>
+          </ul>
+        </section>
+
+        <section class="present" style="top: 159.5px; display: block;">
+          <h2>Pour en savoir plus</h2>
+          <ul>
+            <li>Sur Tepee: <a href='https://github.com/appaloosa-store/tepee'>github.com/appaloosa-store/tepee</a></li>
+            <li>Sur Appaloosa: <a href='https://appaloosa.io'>appaloosa.io</a> (on recrute !)</li>
+            <li>Sur le travail de l'équipe dev: <a href='https://medium.com/appaloosa-store-engineering'>medium.com/appaloosa-store-engineering</a></li>
+          </ul>
         </section>
 
       </div>

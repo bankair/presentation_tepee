@@ -6,3 +6,9 @@ code.small {
   font-size: small;
   line-height: initial;
 }
+
+img.logo {
+/* max-height: 300px!important; */
+  border: none!important;
+  background: none!important;
+}
