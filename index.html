@@ -16,6 +16,7 @@
 
     <link rel="stylesheet" href="css/reveal.css">
     <link rel="stylesheet" href="css/theme/black.css" id="theme">
+    <link rel="stylesheet" href="css/override.css">
 
     <!-- Code syntax highlighting -->
     <link rel="stylesheet" href="lib/css/zenburn.css">
@@ -45,27 +46,27 @@
         </section>
 
         <section>
-          <h2>Après quelques années/mois de développement</h2>
-          <pre><code data-noescape><small>
+          <h2>Après quelques mois ou années de développement</h2>
+          <pre><code class='small' data-noescape>
   # ./config/application.rb
 
   require_relative 'boot'
   require 'rails/all'
   Bundler.require(*Rails.groups)
 
-  $recurly_webhook_token          = ENV['WEBHOOK_TOKEN_FOR_RECURLY'] || '2aecf483bd5'
+  $webhook_token                  = ENV['JOHN_BOB'] || '2aecf483bd5'
   $analytics_endpoint             = ENV['ANALYTICS_ENDPOINT'] || 'http://myproject-analytics-prod.herokuapp.com/'
   $elastic_search_endpoint        = ENV['ELASTIC_SEARCH_ENDPOINT'] || 'https://ad51224bedc712253e27237c41ea1b9b.us-west-1.aws.found.io:9233/'
   $elastic_search_analytics_index = ENV['ELASTIC_SEARCH_ANALYTICS_INDEX'] || 'prod_analytics_index'
   $elastic_search_stats_index     = ENV['ELASTIC_SEARCH_STATS_INDEX'] || 'prod_stats_index'
-  $google_oauth2_client_id        = ENV['GOOGLE_OAUTH2_CLIENT_ID']     || '7632eac5b81aff093a12f30ea32d9e6e.apps.googleusercontent.com'
-  $google_oauth2_client_secret    = ENV['GOOGLE_OAUTH2_CLIENT_SECRET'] || 'e531f70de6bd70908537c98'
-  $custom_oauth2_client_id        = ENV['CUSTOM_OAUTH2_CLIENT_ID']     || 'appaloosa-store.com'
-  $custom_oauth2_client_secret    = ENV['CUSTOM_OAUTH2_CLIENT_SECRET'] || '803f174ca27d9b9c69c36d9d9da4c0e1'
-  $custom_oauth2_callback_uri     = ENV['CUSTOM_OAUTH2_CALLBACK_URI'] || 'http://lvh.me:3000/users/auth/oauth2/callback'
-  $custom_oauth2_domain           = ENV['CUSTOM_OAUTH2_DOMAIN'] || 'https://idp-dev.example.fr'
+  $oauth2_google_client_id        = ENV['OAUTH2_GOOGLE_CLIENT_ID']     || '7632eac5b81aff093a12f30ea32.apps.googleusercontent.com'
+  $oauth2_google_client_secret    = ENV['OAUTH2_GOOGLE_CLIENT_SECRET'] || 'e531f70de6bd70908537c98'
+  $oauth2_custom_client_id        = ENV['OAUTH2_CUSTOM_CLIENT_ID']     || 'appaloosa-store.com'
+  $oauth2_custom_client_secret    = ENV['OAUTH2_CUSTOM_CLIENT_SECRET'] || '803f174ca27d9b9c69c36d9d9da4c0e1'
+  $oauth2_custom_callback_uri     = ENV['OAUTH2_CUSTOM_CALLBACK_URI'] || 'http://lvh.me:3000/users/auth/oauth2/callback'
+  $oauth2_custom_domain           = ENV['OAUTH2_CUSTOM_DOMAIN'] || 'https://idp-dev.example.fr'
   # ......
-          </small></code></pre>
+          </code></pre>
         </section>
 
         <section id="fragments" class="present" style="top: 159.5px; display: block;">
@@ -117,6 +118,138 @@ Bonsoir, Paris.rb !
           </code></pre>
         </section>
 
+        <section>
+          <h3>Migration depuis une configuration existante</h3>
+          <pre><code data-noescape class="small">
+$webhook_token                  = ENV['JOHN_BOB'] || '2aecf483bd5'
+$analytics_endpoint             = ENV['ANALYTICS_ENDPOINT'] || 'http://myproject-analytics-prod.herokuapp.com/'
+$elastic_search_endpoint        = ENV['ELASTIC_SEARCH_ENDPOINT'] || 'https://ad51224bedc712253e27237c41ea1b9b.us-west-1.aws.found.io:9233/'
+$elastic_search_analytics_index = ENV['ELASTIC_SEARCH_ANALYTICS_INDEX'] || 'prod_analytics_index'
+$elastic_search_stats_index     = ENV['ELASTIC_SEARCH_STATS_INDEX'] || 'prod_stats_index'
+$oauth2_google_client_id        = ENV['OAUTH2_GOOGLE_CLIENT_ID']     || '7632eac5b81aff093a12f30ea32.apps.googleusercontent.com'
+$oauth2_google_client_secret    = ENV['OAUTH2_GOOGLE_CLIENT_SECRET'] || 'e531f70de6bd70908537c98'
+$oauth2_custom_client_id        = ENV['OAUTH2_CUSTOM_CLIENT_ID']     || 'appaloosa-store.com'
+$oauth2_custom_client_secret    = ENV['OAUTH2_CUSTOM_CLIENT_SECRET'] || '803f174ca27d9b9c69c36d9d9da4c0e1'
+$oauth2_custom_callback_uri     = ENV['OAUTH2_CUSTOM_CALLBACK_URI'] || 'http://lvh.me:3000/users/auth/oauth2/callback'
+$oauth2_custom_domain           = ENV['OAUTH2_CUSTOM_DOMAIN'] || 'https://idp-dev.example.fr'
+          </code></pre>
+          <pre><code class="smaller fragment" data-noescape>
+$webhook_token = ENV['JOHN_BOB'] || '2aecf483bd5'
+
+class Configuration < Tepee
+  add :analytics_endpoint,             'http://myproject-analytics-prod.herokuapp.com/'
+  add :elastic_search_endpoint,        'https://ad51224bedc712253e27237c41ea1b9b.us-west-1.aws.found.io:9233/'
+  add :elastic_search_analytics_index, 'prod_analytics_index'
+  add :elastic_search_stats_index,     'prod_stats_index'
+  add :oauth2_google_client_id,        '7632eac5b81aff093a12f30ea32.apps.googleusercontent.com'
+  add :oauth2_google_client_secret,    'e531f70de6bd70908537c98'
+  add :oauth2_custom_client_id,        'appaloosa-store.com'
+  add :oauth2_custom_client_secret,    '803f174ca27d9b9c69c36d9d9da4c0e1'
+  add :oauth2_custom_callback_uri,     'http://lvh.me:3000/users/auth/oauth2/callback'
+  add :oauth2_custom_domain,           'https://idp-dev.example.fr'
+end
+          </code></pre>
+        </section>
+
+        <section>
+          <h3>Migration depuis une configuration existante</h3>
+          <pre><code>
+client = Elasticsearch::Client.new(
+  url: $elastic_search_endpoint
+)
+          </code></pre>
+          <pre><code class="fragment" data-noescape>
+client = Elasticsearch::Client.new(
+  url: <mark>Configuration.</mark>elastic_search_endpoint
+)
+          </code></pre>
+        </section>
+
+        <section>
+          <h2>Surcharge de la variable d'environnement ciblée</h2>
+          <pre><code data-noescape class="smaller">
+
+$webhook_token = ENV['JOHN_BOB'] || '2aecf483bd5'
+          </code></pre>
+          <pre><code data-noescape class="smaller">
+class Configuration < Tepee
+  add :analytics_endpoint,             'http://myproject-analytics-prod.herokuapp.com/'
+  add :elastic_search_endpoint,        'https://ad51224bedc712253e27237c41ea1b9b.us-west-1.aws.found.io:9233/'
+  add :elastic_search_analytics_index, 'prod_analytics_index'
+  add :elastic_search_stats_index,     'prod_stats_index'
+  add :oauth2_google_client_id,        '7632eac5b81aff093a12f30ea32.apps.googleusercontent.com'
+  add :oauth2_google_client_secret,    'e531f70de6bd70908537c98'
+  add :oauth2_custom_client_id,        'appaloosa-store.com'
+  add :oauth2_custom_client_secret,    '803f174ca27d9b9c69c36d9d9da4c0e1'
+  add :oauth2_custom_callback_uri,     'http://lvh.me:3000/users/auth/oauth2/callback'
+  add :oauth2_custom_domain,           'https://idp-dev.example.fr'
+<text class="fragment">  add :webhook_token,                  '2aecf483bd5'<text class="fragment">, env_var: 'JOHN_BOB'</text></text>
+end
+          </code></pre>
+        </section>
+
+        <section>
+          <h2>Les sections</h2>
+          <pre><code data-noescape>
+add :webhook_token,                  '2aecf483bd5', env_var: 'JOHN_BOB'
+add :analytics_endpoint,             'http://myproject-analytics-prod.herokuapp.com/'
+add :elastic_search_endpoint,        'https://ad51224bedc712253e27237c41ea1b9b.us-west-1.aws.found.io:9233/'
+add :elastic_search_analytics_index, 'prod_analytics_index'
+add :elastic_search_stats_index,     'prod_stats_index'
+add :oauth2_google_client_id,        '7632eac5b81aff093a12f30ea32.apps.googleusercontent.com'
+add :oauth2_google_client_secret,    'e531f70de6bd70908537c98'
+add :oauth2_custom_client_id,        'appaloosa-store.com'
+add :oauth2_custom_client_secret,    '803f174ca27d9b9c69c36d9d9da4c0e1'
+add :oauth2_custom_callback_uri,     'http://lvh.me:3000/users/auth/oauth2/callback'
+add :oauth2_custom_domain,           'https://idp-dev.example.fr'
+          </code></pre>
+        </section>
+
+        <section>
+          <h2>Les sections</h2>
+          <pre><code class='smaller' data-noescape>
+add :webhook_token,      '2aecf483bd5', env_var: 'JOHN_BOB'
+add :analytics_endpoint, 'http://myproject-analytics-prod.herokuapp.com/'
+
+section :elastic_search do
+  add :endpoint,        'https://ad51224bedc712253e27237c41ea1b9b.us-west-1.aws.found.io:9233/'
+  add :analytics_index, 'prod_analytics_index'
+  add :stats_index,     'prod_stats_index'
+end
+
+section :oauth2 do
+  add :google_client_id,     '7632eac5b81aff093a12f30ea32.apps.googleusercontent.com'
+  add :google_client_secret, 'e531f70de6bd70908537c98'
+  add :custom_client_id,     'appaloosa-store.com'
+  add :custom_client_secret, '803f174ca27d9b9c69c36d9d9da4c0e1'
+  add :custom_callback_uri,  'http://lvh.me:3000/users/auth/oauth2/callback'
+  add :custom_domain,        'https://idp-dev.example.fr'
+end
+          </code></pre>
+        </section>
+
+        <section>
+          <h2>Les sections</h2>
+          <pre><code class='smaller' data-noescape>
+section :oauth2 do
+  section :google do
+    add :client_id,     '7632eac5b81aff093a12f30ea32.apps.googleusercontent.com'
+    add :client_secret, 'e531f70de6bd70908537c98'
+  end
+
+  section :custom do
+    add :client_id,     'appaloosa-store.com'
+    add :client_secret, '803f174ca27d9b9c69c36d9d9da4c0e1'
+    add :callback_uri,  'http://lvh.me:3000/users/auth/oauth2/callback'
+    add :domain,        'https://idp-dev.example.fr'
+  end
+end
+          </code></pre>
+
+          <pre class="fragment"><code class="smaller">
+  Configuration.oauth2.google.client_id == ENV['OAUTH2_GOOGLE_CLIENT_ID']
+          </code></pre>
+        </section>
 
       </div>
     </div>
