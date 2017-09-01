@@ -1,0 +1,20 @@
+<section>
+  <pre><code>
+require_relative 'boot'
+require 'rails/all'
+Bundler.require(*Rails.groups)
+
+$recurly_webhook_token          = ENV['WEBHOOK_TOKEN_FOR_RECURLY'] || '2aecf483bd5'
+$analytics_endpoint             = ENV['ANALYTICS_ENDPOINT'] || 'http://myproject-analytics-prod.herokuapp.com/'
+$elastic_search_endpoint        = ENV['ELASTIC_SEARCH_ENDPOINT'] || 'https://ad51224bedc712253e27237c41ea1b9b.us-west-1.aws.found.io:9233/'
+$elastic_search_analytics_index = ENV['ELASTIC_SEARCH_ANALYTICS_INDEX'] || 'prod_analytics_index'
+$elastic_search_stats_index     = ENV['ELASTIC_SEARCH_STATS_INDEX'] || 'prod_stats_index'
+$google_oauth2_client_id        = ENV['GOOGLE_OAUTH2_CLIENT_ID']     || '7632eac5b81aff093a12f30ea32d9e6e.apps.googleusercontent.com'
+$google_oauth2_client_secret    = ENV['GOOGLE_OAUTH2_CLIENT_SECRET'] || 'e531f70de6bd70908537c98'
+$custom_oauth2_client_id        = ENV['CUSTOM_OAUTH2_CLIENT_ID']     || 'appaloosa-store.com'
+$custom_oauth2_client_secret    = ENV['CUSTOM_OAUTH2_CLIENT_SECRET'] || '803f174ca27d9b9c69c36d9d9da4c0e1'
+$custom_oauth2_callback_uri     = ENV['CUSTOM_OAUTH2_CALLBACK_URI'] || 'http://lvh.me:3000/users/auth/oauth2/callback'
+$custom_oauth2_domain           = ENV['CUSTOM_OAUTH2_DOMAIN'] || 'https://idp-dev.example.fr'
+# ......
+	</code></pre>
+</section>

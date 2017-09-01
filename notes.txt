@@ -1,0 +1,5 @@
+Notes:
+  * designing => design
+  * name explicit instead of documenting issues
+  * maintain test and challenge pertinence
+  * think of assert(true = true)

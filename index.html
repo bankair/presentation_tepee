@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Tepee, un outil de gestion de configuration pour les braves !</title>
+
+    <meta name="description" content="Une introduction à la gem Tepee">
+    <meta name="author" content="Alexandre Ignjatovic">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <h2> Le pattern usuel de mapping sur l'environnement d'exécution</h2>
+          <pre class='fragment'><code>
+          $something = ENV['FOO'] || 'bar'
+          </code></pre>
+        </section>
+
+        <section>
+          <h2>Après quelques années/mois de développement</h2>
+          <pre><code data-noescape><small>
+  # ./config/application.rb
+
+  require_relative 'boot'
+  require 'rails/all'
+  Bundler.require(*Rails.groups)
+
+  $recurly_webhook_token          = ENV['WEBHOOK_TOKEN_FOR_RECURLY'] || '2aecf483bd5'
+  $analytics_endpoint             = ENV['ANALYTICS_ENDPOINT'] || 'http://myproject-analytics-prod.herokuapp.com/'
+  $elastic_search_endpoint        = ENV['ELASTIC_SEARCH_ENDPOINT'] || 'https://ad51224bedc712253e27237c41ea1b9b.us-west-1.aws.found.io:9233/'
+  $elastic_search_analytics_index = ENV['ELASTIC_SEARCH_ANALYTICS_INDEX'] || 'prod_analytics_index'
+  $elastic_search_stats_index     = ENV['ELASTIC_SEARCH_STATS_INDEX'] || 'prod_stats_index'
+  $google_oauth2_client_id        = ENV['GOOGLE_OAUTH2_CLIENT_ID']     || '7632eac5b81aff093a12f30ea32d9e6e.apps.googleusercontent.com'
+  $google_oauth2_client_secret    = ENV['GOOGLE_OAUTH2_CLIENT_SECRET'] || 'e531f70de6bd70908537c98'
+  $custom_oauth2_client_id        = ENV['CUSTOM_OAUTH2_CLIENT_ID']     || 'appaloosa-store.com'
+  $custom_oauth2_client_secret    = ENV['CUSTOM_OAUTH2_CLIENT_SECRET'] || '803f174ca27d9b9c69c36d9d9da4c0e1'
+  $custom_oauth2_callback_uri     = ENV['CUSTOM_OAUTH2_CALLBACK_URI'] || 'http://lvh.me:3000/users/auth/oauth2/callback'
+  $custom_oauth2_domain           = ENV['CUSTOM_OAUTH2_DOMAIN'] || 'https://idp-dev.example.fr'
+  # ......
+          </small></code></pre>
+        </section>
+
+        <section id="fragments" class="present" style="top: 159.5px; display: block;">
+          <h2>Et pourquoi pas ?</h2>
+          <ul>
+            <li class="fragment" data-fragment-index="1">Une globale, ça s'altère (🏋🏾‍♀️) !</li>
+            <li class="fragment" data-fragment-index="2">On répète le même pattern ad nauseam.</li>
+            <li class="fragment" data-fragment-index="3">Assez indigeste à lire.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Tepee ?</h2>
+          <ul>
+            <li>Une configuration immutable</li>
+            <li>facile à déclarer</li>
+            <li>facile à relire</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Installation</h2>
+          <p>Avec gem install:</p>
+          <pre><code>gem install tepee</code></pre>
+          <p>ou bien dans le Gemfile:</p>
+          <pre><code>gem 'tepee'</code></pre>
+        </section>
+
+        <section>
+          <h2>Mise en place d'une configuration</h2>
+
+          <pre><code data-noescape>
+# hello_world.rb
+<text class="fragment">require 'tepee'</text>
+<text class="fragment">
+class Configuration < Tepee
+<text class="fragment">  add :message, 'Hello, world !'</text>
+end
+</text>
+<text class="fragment">puts Configuration.message</text>
+          </code></pre>
+          <pre><code class="fragment" data-noescape>
+$ ruby hello_world.rb
+Hello, world !
+<text class="fragment">$ export MESSAGE='Bonsoir, Paris.rb !'</text><text class="fragment">
+$ ruby hello_world.rb
+Bonsoir, Paris.rb !
+</text>
+          </code></pre>
+        </section>
+
+
+      </div>
+    </div>
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+    <script>
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: false,
+        progress: true,
+        history: true,
+        center: true,
+
+        transition: 'fade', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true },
+          { src: 'plugin/notes/notes.js', async: true }
+        ]
+      });
+    </script>
+  </body>
+</html>
