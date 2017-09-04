@@ -30,12 +30,47 @@
       document.getElementsByTagName( 'head' )[0].appendChild( link );
     </script>
 
+    <!-- <script> -->
+    <!--   var html_barra = '<div class="topbar"><h1 class="titulo">' + titulo + --> 
+    <!--   '</h1><image class="logo" src="images/logo_tegnix.png"></div>'; -->
+    <!--   if ( window.location.search.match( /print-pdf/gi ) ) { -->
+    <!--       $('section').append(html_barra); -->
+    <!--   } -->
+    <!--   else { -->
+    <!--       $('div.reveal').append(html_barra); -->
+    <!--   } -->
+    <!-- <script> -->
+
     <!--[if lt IE 9]>
     <script src="lib/js/html5shiv.js"></script>
     <![endif]-->
   </head>
-
+    <style type="text/css">
+      #header-left {
+        position: absolute;
+        top: 0%;
+        left: -20%;
+      }
+      #header-right {
+        position: absolute;
+        top: 0%;
+        right: 0%;
+      }
+      #footer-left {
+        position: absolute;
+        bottom: 0%;
+        left: -20%;
+      }
+    </style>
   <body>
+    <div id="hidden" style="display:none;">
+      <div id="header">
+        <div id="header-left"><img style="max-width:300px;" src="images/logo.png" /></div>
+        <div id="header-right"></div>
+        <div id="footer-left"><small style="color:grey;" >@bankair</small></div>
+      </div>
+    </div>
+
     <div class="reveal">
       <div class="slides">
 
@@ -102,7 +137,7 @@
         </section>
 
         <section>
-          <h2>Mise en place d'une configuration</h2>
+          <h2>Mise en place</h2>
 
           <pre><code data-noescape>
 # hello_world.rb
@@ -125,7 +160,7 @@ Bonsoir, Paris.rb !
         </section>
 
         <section>
-          <h3>Migration depuis une configuration existante</h3>
+          <h3>Migrer</h3>
           <pre><code data-noescape class="small">
 $webhook_token                  = ENV['JOHN_BOB'] || '2aecf483bd5'
 $analytics_endpoint             = ENV['ANALYTICS_ENDPOINT'] || 'http://myproject-analytics-prod.herokuapp.com/'
@@ -158,7 +193,7 @@ end
         </section>
 
         <section>
-          <h3>Migration depuis une configuration existante</h3>
+          <h3>Migrer</h3>
           <pre><code>
 client = Elasticsearch::Client.new(
   url: $elastic_search_endpoint
@@ -172,7 +207,7 @@ client = Elasticsearch::Client.new(
         </section>
 
         <section>
-          <h2>Surcharge de la variable d'environnement ciblée</h2>
+          <h2>Forcer la variable d'env cible</h2>
           <pre><code data-noescape class="smaller">
 
 $webhook_token = ENV['JOHN_BOB'] || '2aecf483bd5'
@@ -263,6 +298,7 @@ end
             <li>Tepee est vraiment facile à utiliser.</li>
             <li>L'organisation en section permet d'avoir une configuration bien structurée et propre.</li>
             <li>Le mapping avec l'environnement d'exécution est automatique.</li>
+            <li>Aucune dépendance requise.</li>
           </ul>
         </section>
 
@@ -270,11 +306,15 @@ end
           <h2>Pour en savoir plus</h2>
           <ul>
             <li>Sur Tepee: <a href='https://github.com/appaloosa-store/tepee'>github.com/appaloosa-store/tepee</a></li>
-            <li>Sur Appaloosa: <a href='https://www.appaloosa.io'>appaloosa.io</a> (on recrute !)</li>
+            <li>Sur Appaloosa: <a href='https://www.appaloosa.io'>appaloosa.io</a> (qui recrute !)</li>
             <li>Sur le travail de l'équipe dev: <a href='https://medium.com/appaloosa-store-engineering'>medium.com/appaloosa-store-engineering</a></li>
+            <li>Sur votre serviteur: <a href='https://www.twitter.com/bankair'>twitter.com/bankair</a> et <a href='https://www.github.com/bankair'>github.com/bankair</a></li>
           </ul>
         </section>
 
+        <section>
+          <h1>Merci !</h1>
+        </section>
       </div>
     </div>
     <script src="lib/js/head.min.js"></script>
@@ -300,6 +340,16 @@ end
           { src: 'plugin/notes/notes.js', async: true }
         ]
       });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script type="text/javascript">
+        var header = $('#header').html();
+        if ( window.location.search.match( /print-pdf/gi ) ) {
+            $('.slides > section').prepend(header);
+        }
+        else {
+            $('.slides').prepend(header);
+        }
     </script>
   </body>
 </html>
