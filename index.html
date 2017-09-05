@@ -138,7 +138,7 @@ end
 </text>
 <text class="fragment">puts Configuration.message</text>
           </code></pre>
-          <pre><code class="fragment" data-noescape>
+          <pre class="fragment"><code data-noescape>
 $ ruby hello_world.rb
 Hello, world !
 <text class="fragment">$ export MESSAGE='Bonsoir, Paris.rb !'</text><text class="fragment">
@@ -163,7 +163,7 @@ $oauth2_custom_client_secret    = ENV['OAUTH2_CUSTOM_CLIENT_SECRET'] || '803f174
 $oauth2_custom_callback_uri     = ENV['OAUTH2_CUSTOM_CALLBACK_URI'] || 'http://lvh.me:3000/users/auth/oauth2/callback'
 $oauth2_custom_domain           = ENV['OAUTH2_CUSTOM_DOMAIN'] || 'https://idp-dev.example.fr'
           </code></pre>
-          <pre><code class="smaller fragment" data-noescape>
+          <pre class="fragment"><code class="smaller" data-noescape>
 $webhook_token = ENV['JOHN_BOB'] || '2aecf483bd5'
 
 class Configuration < Tepee
@@ -188,7 +188,7 @@ client = Elasticsearch::Client.new(
   url: $elastic_search_endpoint
 )
           </code></pre>
-          <pre><code class="fragment" data-noescape>
+          <pre class="fragment"><code data-noescape>
 client = Elasticsearch::Client.new(
   url: <mark>Configuration.</mark>elastic_search_endpoint
 )
